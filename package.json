@@ -1,0 +1,34 @@
+{
+  "name": "doz-ssr",
+  "version": "0.0.0",
+  "description": "DOZ Server Side Render",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dozjs/doz-ssr.git"
+  },
+  "keywords": [
+    "doz",
+    "ssr",
+    "server",
+    "side",
+    "render"
+  ],
+  "author": "Fabio Ricali",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dozjs/doz-ssr/issues"
+  },
+  "homepage": "https://github.com/dozjs/doz-ssr#readme",
+  "devDependencies": {
+    "koa": "^2.5.1"
+  },
+  "dependencies": {
+    "doz": "^1.4.3",
+    "jsdom": "^11.11.0",
+    "jsdom-global": "^3.0.2"
+  }
+}
