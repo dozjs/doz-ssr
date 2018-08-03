@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/dozjs/doz-ssr#readme",
   "devDependencies": {
-    "koa": "^2.5.1"
+    "koa": "^2.5.1",
+    "parcel-bundler": "^1.9.4"
   },
   "dependencies": {
     "doz": "^1.4.3",
