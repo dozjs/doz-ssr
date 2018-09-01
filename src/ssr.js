@@ -6,8 +6,9 @@ const fs = require('fs');
 require('jsdom-global')();
 
 const rawDoz = fs.readFileSync('./node_modules/doz/dist/doz.min.js');
+const bundle = fs.readFileSync('./dist/bundle.js');
 
-const js = `
+/*const js = `
     new Doz({
         root: '#app',
         template() {
@@ -19,14 +20,14 @@ const js = `
             \`;
         }
     });
-`;
+`;*/
 
 app.use(async ctx => {
     document.body.innerHTML = `
         <div id="app"></div>
     `;
 
-    eval(js);
+    eval(bundle);
 
     const appRender = document.body.innerHTML;
 
@@ -38,8 +39,7 @@ app.use(async ctx => {
         <body>
             ${appRender}
             <script>
-            ${rawDoz}
-            ${js}
+            ${bundle}
             </script>
         </body>
     </html>

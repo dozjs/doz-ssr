@@ -4,7 +4,10 @@
   "description": "DOZ Server Side Render",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "test-ssr-watch": "parcel watch test/SSR/client/app.js --out-file bundle --no-cache --out-dir test/SSR/public/dist --public-url ./",
+    "test-ssr-build": "parcel build test/SSR/client/app.js --out-file bundle --no-cache --out-dir test/SSR/public/dist --public-url ./",
+    "test-ssr-start-server": "node test/SSR/index.js"
   },
   "repository": {
     "type": "git",
@@ -24,11 +27,14 @@
   },
   "homepage": "https://github.com/dozjs/doz-ssr#readme",
   "devDependencies": {
+    "doz": "^1.4.4",
+    "doz-router": "^1.1.0",
     "koa": "^2.5.1",
+    "koa-body": "^4.0.4",
+    "koa-static": "^5.0.0",
     "parcel-bundler": "^1.9.4"
   },
   "dependencies": {
-    "doz": "^1.4.3",
     "jsdom": "^11.11.0",
     "jsdom-global": "^3.0.2"
   }

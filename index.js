@@ -1,1 +1,1 @@
-module.exports = require('./src/ssr');
+module.exports = require('./src/DozServer');
