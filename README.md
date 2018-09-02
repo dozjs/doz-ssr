@@ -1,2 +1,2 @@
 # doz-ssr
-DOZ Server Size Render
+DOZ server-side rendering
