@@ -3,7 +3,7 @@ const DOZ_GLOBAL = '__DOZ_GLOBAL_COMPONENTS__';
 const DOZ_SSR_PATH = '__DOZ_SSR_PATH__';
 require('jsdom-global')();
 
-class DozServer {
+class DozSSR {
 
     constructor(entryFile, opt = {}) {
 
@@ -85,4 +85,4 @@ class DozServer {
     }
 }
 
-module.exports = DozServer;
+module.exports = DozSSR;
