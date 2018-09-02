@@ -39,8 +39,8 @@ new Koa()
     <title>MyApp</title>
 </head>
 <body>
-<div id="app"></div>
-<script id="bundle" src="/dist/bundle.js"></script>
+    <div id="app"></div>
+    <script id="bundle" src="/dist/bundle.js"></script>
 </body>
 </html>
 ```
