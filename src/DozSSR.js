@@ -45,6 +45,8 @@ class DozSSR {
 
         //Get bundle content
         this.bundleJS = this.constructor.read(bundlePath);
+
+        this.staticPages = {};
     }
 
     /**
@@ -80,11 +82,23 @@ class DozSSR {
         return path.normalize(`${rootBundlePath}/${bundleEl.src}`);
     }
 
-    async prerender() {
-        await this.render('');
-        document.querySelectorAll('a[href]').forEach(item => {
-            console.log(item.href)
-        });
+    async prerender(routePath = '/') {
+        // Reinitialize document
+        await this.render(routePath);
+
+        // Retrieve all links
+        const links = document.querySelectorAll('a[href]');
+
+        let href;
+        for (let i = 0; i < links.length; i++) {
+            href = links[i].href;
+            // Added only if not exists
+            if (typeof this.staticPages[href] === 'undefined') {
+                this.staticPages[href] = await this.render(href);
+            }
+        }
+
+        console.log(this.staticPages);
     }
 
     /**
