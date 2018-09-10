@@ -80,6 +80,13 @@ class DozSSR {
         return path.normalize(`${rootBundlePath}/${bundleEl.src}`);
     }
 
+    async prerender() {
+        await this.render('');
+        document.querySelectorAll('a[href]').forEach(item => {
+            console.log(item.href)
+        });
+    }
+
     /**
      * Render app
      * @param routePath
