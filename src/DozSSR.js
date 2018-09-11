@@ -84,7 +84,9 @@ class DozSSR {
 
     async prerender(routePath = '/') {
         // Reinitialize document
-        await this.render(routePath);
+        if (typeof this.staticPages[routePath] === 'undefined') {
+            this.staticPages[routePath] = await this.render(routePath);
+        }
 
         // Retrieve all links
         const links = document.querySelectorAll('a[href]');
@@ -94,7 +96,7 @@ class DozSSR {
             href = links[i].href;
             // Added only if not exists
             if (typeof this.staticPages[href] === 'undefined') {
-                this.staticPages[href] = await this.render(href);
+                await this.prerender(href);
             }
         }
 
