@@ -3,6 +3,8 @@ DOZ server-side rendering
 
 <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" title="License: MIT"/></a>
 
+> Works only with bundle provided by Parcel.
+
 ## Installation
 
 ```
