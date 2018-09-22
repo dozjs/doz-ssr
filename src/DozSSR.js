@@ -79,7 +79,7 @@ class DozSSR {
      */
     getBundlePath(bundleEl) {
         const rootBundlePath = path.parse(this.entryFile).dir;
-        return path.normalize(`${rootBundlePath}/${bundleEl.src}`);
+        return path.join(rootBundlePath, bundleEl.src);
     }
 
     async prerender(routePath = '/') {
