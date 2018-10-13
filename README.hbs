@@ -21,7 +21,7 @@ const serve = require('koa-static');
 const body = require('koa-body');
 const DozSSR = require('doz-ssr');
 
-const dozSSR = new DozSSR('./public/index.html');
+const dozSSR = new DozSSR('./dist/index.html');
 
 new Koa()
     .use(serve('./public', {index: false}))
@@ -42,7 +42,7 @@ new Koa()
 </head>
 <body>
     <div id="app"></div>
-    <script id="bundle" src="/dist/bundle.js"></script>
+    <script id="bundle" src="/bundle.js"></script>
 </body>
 </html>
 ```
