@@ -104,7 +104,11 @@ class DozSSR {
      */
     eval() {
         let parcelRequire = {};
-        eval(this.bundleJS);
+        try {
+            eval(this.bundleJS);
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     /**
