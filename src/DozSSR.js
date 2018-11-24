@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const DOZ_GLOBAL = '__DOZ_GLOBAL_COMPONENTS__';
 const DOZ_SSR_PATH = '__DOZ_SSR_PATH__';
+const waitOn = require('wait-on');
 require('jsdom-global')();
 
 class DozSSR {
@@ -41,10 +42,10 @@ class DozSSR {
             throw new Error(`Bundle element not found, please add id attribute (<script id="${this.opt.bundleId}" ...) to bundle script`);
 
         //Retrieve file path
-        const bundlePath = this.getBundlePath(bundleEl);
+        this.bundlePath = this.getBundlePath(bundleEl);
 
         //Get bundle content
-        this.bundleJS = this.constructor.read(bundlePath);
+        this.bundleJS = this.constructor.read(this.bundlePath);
     }
 
     /**
@@ -83,9 +84,17 @@ class DozSSR {
     /**
      * Render app
      * @param routePath
+     * @param [wait=false]
      * @returns {Promise<any>}
      */
-    render(routePath) {
+    async render(routePath, wait = false) {
+        if (wait) {
+            await waitOn({
+                resources: [this.bundlePath]
+            });
+            this.bundleJS = this.constructor.read(this.bundlePath);
+        }
+
         this.constructor.clearComponents();
         this.constructor.assignRoute(routePath);
         this.eval();
