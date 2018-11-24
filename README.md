@@ -58,7 +58,7 @@ new Koa()
     * [.getContent()](#DozSSR+getContent) ⇒ <code>string</code>
     * [.getBundleEl()](#DozSSR+getBundleEl) ⇒ <code>HTMLElement</code> \| <code>null</code>
     * [.getBundlePath()](#DozSSR+getBundlePath) ⇒ <code>string</code>
-    * [.render(routePath)](#DozSSR+render) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [.render(routePath, [wait])](#DozSSR+render) ⇒ <code>Promise.&lt;any&gt;</code>
 
 <a name="new_DozSSR_new"></a>
 
@@ -126,19 +126,21 @@ Get bundle path from src attribute
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <a name="DozSSR+render"></a>
 
-### dozSSR.render(routePath) ⇒ <code>Promise.&lt;any&gt;</code>
+### dozSSR.render(routePath, [wait]) ⇒ <code>Promise.&lt;any&gt;</code>
 Render app
 
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <table>
   <thead>
     <tr>
-      <th>Param</th>
+      <th>Param</th><th>Default</th>
     </tr>
   </thead>
   <tbody>
 <tr>
-    <td>routePath</td>
+    <td>routePath</td><td></td>
+    </tr><tr>
+    <td>[wait]</td><td><code>false</code></td>
     </tr>  </tbody>
 </table>
 
