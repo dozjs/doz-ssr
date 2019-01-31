@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const DOZ_GLOBAL = '__DOZ_GLOBAL_COMPONENTS__';
-const DOZ_SSR_PATH = '__DOZ_SSR_PATH__';
+const {DOZ_GLOBAL, DOZ_SSR_PATH} = require('./constants');
 const waitOn = require('wait-on');
 require('jsdom-global')();
 
