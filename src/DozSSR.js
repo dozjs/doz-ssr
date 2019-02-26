@@ -63,9 +63,10 @@ class DozSSR {
      * Render app
      * @param routePath
      * @param [wait=false]
+     * @param [url=http://localhost]
      * @returns {Promise<any>}
      */
-    async render(routePath, wait = false) {
+    async render(routePath, wait = false, url = 'http://localhost') {
         if (wait) {
             await waitOn({
                 resources: [this.bundlePath]
@@ -73,14 +74,12 @@ class DozSSR {
             this.bundleJS = this.constructor.read(this.bundlePath);
         }
 
-        const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only' });
+        const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only', url});
 
         DOM.window.eval(`
-            //if (window['${DOZ_GLOBAL}'])
-              //  window['${DOZ_GLOBAL}'].components = {};
-            
             window['${DOZ_SSR_PATH}'] = '${routePath}';
             let parcelRequire = {};
+            window.WebSocket = undefined;
             ${this.bundleJS};
         `);
 
