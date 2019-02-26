@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const {DOZ_GLOBAL, DOZ_SSR_PATH} = require('./constants');
 const waitOn = require('wait-on');
-require('jsdom-global')();
+const jsdom = require('jsdom');
 
 class DozSSR {
 
@@ -26,16 +26,19 @@ class DozSSR {
 
         this.entryFile = entryFile;
 
-        this.docRef = document.documentElement;
+        this.DOM = new jsdom.JSDOM('');
+        this.window = this.DOM.window;
+        this.docRef = this.window.document.documentElement;
 
         //Get entry file content
-        const entryContent = this.constructor.read(entryFile);
+        this.entryContent = this.constructor.read(entryFile);
 
+        this.docRef.innerHTML = this.entryContent.replace(this.opt.docTypeString, '');
         //Set doc content
-        this.setContent(entryContent);
+        //this.setContent(this.entryContent);
 
         //Get bundle element
-        const bundleEl = this.getBundleEl();
+        const bundleEl = this.window.document.getElementById(this.opt.bundleId);
 
         if (!bundleEl)
             throw new Error(`Bundle element not found, please add id attribute (<script id="${this.opt.bundleId}" ...) to bundle script`);
@@ -45,30 +48,6 @@ class DozSSR {
 
         //Get bundle content
         this.bundleJS = this.constructor.read(this.bundlePath);
-    }
-
-    /**
-     * Set document content
-     * @param entryContent
-     */
-    setContent(entryContent) {
-        this.docRef.innerHTML = entryContent.replace(this.opt.docTypeString, '');
-    }
-
-    /**
-     * Get document content
-     * @returns {string}
-     */
-    getContent() {
-        return `${this.opt.docTypeString}${this.docRef.outerHTML}`;
-    }
-
-    /**
-     * Get bundle HTMLElement
-     * @returns {HTMLElement | null}
-     */
-    getBundleEl() {
-        return document.getElementById(this.opt.bundleId);
     }
 
     /**
@@ -94,29 +73,22 @@ class DozSSR {
             this.bundleJS = this.constructor.read(this.bundlePath);
         }
 
-        this.constructor.clearComponents();
-        this.constructor.assignRoute(routePath);
-        this.eval();
+        const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only' });
+
+        DOM.window.eval(`
+            //if (window['${DOZ_GLOBAL}'])
+              //  window['${DOZ_GLOBAL}'].components = {};
+            
+            window['${DOZ_SSR_PATH}'] = '${routePath}';
+            let parcelRequire = {};
+            ${this.bundleJS};
+        `);
 
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(this.getContent());
+                resolve(this.opt.docTypeString + DOM.window.document.documentElement.outerHTML);
             }, this.opt.delayRender);
         });
-    }
-
-    /**
-     * Evaluate bundle code
-     * @ignore
-     * @private
-     */
-    eval() {
-        let parcelRequire = {};
-        try {
-            eval(this.bundleJS);
-        } catch (e) {
-            console.error(e)
-        }
     }
 
     /**
@@ -130,24 +102,6 @@ class DozSSR {
         return fs.readFileSync(filePath).toString();
     }
 
-    /**
-     * Clear component already registered
-     * @ignore
-     * @private
-     */
-    static clearComponents() {
-        if (window[DOZ_GLOBAL])
-            window[DOZ_GLOBAL].components = {};
-    }
-
-    /**
-     * Assign current path to global object
-     * @ignore
-     * @private
-     */
-    static assignRoute(routePath) {
-        window[DOZ_SSR_PATH] = routePath;
-    }
 }
 
 module.exports = DozSSR;

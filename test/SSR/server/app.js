@@ -11,6 +11,6 @@ new Koa()
     .use(serve('./public', {index: false}))
     .use(body())
     .use(async ctx => {
-        ctx.body = await dozSSR.render(ctx.path);
+        ctx.body = await dozSSR.render(ctx.url);
     })
     .listen(3000);

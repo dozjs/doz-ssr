@@ -33,13 +33,15 @@
   },
   "homepage": "https://github.com/dozjs/doz-ssr#readme",
   "devDependencies": {
-    "doz": "^1.4.4",
-    "doz-router": "^1.1.1",
+    "doz": "^1.14.0",
+    "doz-router": "git+https://github.com/dozjs-cmp/doz-router.git#root",
+    "install": "^0.12.2",
     "jsdoc-to-markdown": "^4.0.1",
     "koa": "^2.5.1",
     "koa-body": "^4.0.4",
     "koa-static": "^5.0.0",
     "mocha": "^5.2.0",
+    "npm": "^6.8.0",
     "parcel-bundler": "^1.9.4"
   },
   "dependencies": {
