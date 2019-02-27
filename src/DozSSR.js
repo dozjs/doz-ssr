@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const {DOZ_GLOBAL, DOZ_SSR_PATH} = require('./constants');
+const {DOZ_SSR_PATH} = require('./constants');
 const waitOn = require('wait-on');
 const jsdom = require('jsdom');
+const normalizeUrl = require('normalize-url');
 
 class DozSSR {
 
@@ -68,7 +69,7 @@ class DozSSR {
      */
     async render(routePath, wait = false, baseUrl = 'http://localhost') {
 
-        baseUrl = path.normalize(`${baseUrl}/${routePath}`);
+        const url = normalizeUrl(`${baseUrl}/${routePath}`);
 
         if (wait) {
             await waitOn({
@@ -77,7 +78,7 @@ class DozSSR {
             this.bundleJS = this.constructor.read(this.bundlePath);
         }
 
-        const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only', baseUrl});
+        const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only', url});
 
         DOM.window.eval(`
             window['${DOZ_SSR_PATH}'] = '${routePath}';

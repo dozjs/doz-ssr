@@ -47,6 +47,7 @@
   "dependencies": {
     "jsdom": "^13.2.0",
     "jsdom-global": "^3.0.2",
+    "normalize-url": "^4.1.0",
     "wait-on": "^3.2.0"
   }
 }
