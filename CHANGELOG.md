@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+[1.4.0] - 2019-02-27
+**Added** `baseUrl` argument to `render`
+**Fixed** scope issue
+
 [1.3.0] - 2019-01-31
 **Added** isSSR plugin
 
