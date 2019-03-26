@@ -2,6 +2,7 @@
 DOZ server-side rendering
 
 <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" title="License: MIT"/></a>
+<img src="https://img.shields.io/badge/Node.js-%3E%3D8.6.0-green.svg" title="Node.js version"/>
 
 ## Installation
 
@@ -144,6 +145,21 @@ Render app
     </tr>  </tbody>
 </table>
 
+
+## PLUGIN
+
+Check if environment is server side from your app
+
+```js
+import isSSR from 'doz-ssr/plugin'
+
+Doz.use(isSSR);
+
+// You now can call isSSR() method inside your app
+Doz.component('my-component', function(h){
+    return h`<div>is server? ${this.isSSR()}</div>`
+})
+```
 
 ## Changelog
 You can view the changelog <a target="_blank" href="https://github.com/dozjs/doz-ssr/blob/master/CHANGELOG.md">here</a>
