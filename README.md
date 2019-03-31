@@ -55,7 +55,7 @@ new Koa()
 * [DozSSR](#DozSSR)
     * [new DozSSR(entryFile, [opt])](#new_DozSSR_new)
     * [.getBundlePath()](#DozSSR+getBundlePath) ⇒ <code>string</code>
-    * [.render(routePath, [wait], [baseUrl])](#DozSSR+render) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [.render(routePath, [reloadBundle], [baseUrl])](#DozSSR+render) ⇒ <code>Promise.&lt;\*&gt;</code>
 
 <a name="new_DozSSR_new"></a>
 
@@ -68,19 +68,19 @@ new Koa()
   </thead>
   <tbody>
 <tr>
-    <td>entryFile</td><td><code>string</code></td><td></td><td><p>file index</p>
+    <td>entryFile</td><td><code>string</code></td><td></td><td><p>File index.</p>
 </td>
     </tr><tr>
-    <td>[opt]</td><td><code>object</code></td><td></td><td><p>options</p>
+    <td>[opt]</td><td><code>object</code></td><td></td><td><p>Options.</p>
 </td>
     </tr><tr>
-    <td>[opt.bundleId]</td><td><code>string</code></td><td><code>&quot;bundle&quot;</code></td><td><p>bundle id selector</p>
+    <td>[opt.bundleId]</td><td><code>string</code></td><td><code>&quot;bundle&quot;</code></td><td><p>Bundle id selector.</p>
 </td>
     </tr><tr>
-    <td>[opt.docTypeString]</td><td><code>string</code></td><td><code>&quot;&lt;!DOCTYPE html&gt;&quot;</code></td><td><p>document type</p>
+    <td>[opt.docTypeString]</td><td><code>string</code></td><td><code>&quot;&lt;!DOCTYPE html&gt;&quot;</code></td><td><p>Document type.</p>
 </td>
     </tr><tr>
-    <td>[opt.delayRender]</td><td><code>int</code></td><td><code>0</code></td><td><p>delay render in ms</p>
+    <td>[opt.delayRender]</td><td><code>int</code></td><td><code>0</code></td><td><p>Delay render in ms.</p>
 </td>
     </tr>  </tbody>
 </table>
@@ -93,23 +93,26 @@ Get bundle path from src attribute
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <a name="DozSSR+render"></a>
 
-### dozSSR.render(routePath, [wait], [baseUrl]) ⇒ <code>Promise.&lt;any&gt;</code>
+### dozSSR.render(routePath, [reloadBundle], [baseUrl]) ⇒ <code>Promise.&lt;\*&gt;</code>
 Render app
 
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <table>
   <thead>
     <tr>
-      <th>Param</th><th>Default</th>
+      <th>Param</th><th>Default</th><th>Description</th>
     </tr>
   </thead>
   <tbody>
 <tr>
-    <td>routePath</td><td></td>
+    <td>routePath</td><td></td><td><p>The route path.</p>
+</td>
     </tr><tr>
-    <td>[wait]</td><td><code>false</code></td>
+    <td>[reloadBundle]</td><td><code>false</code></td><td><p>If true, the bundle will be reload every render call. This operation is slow.</p>
+</td>
     </tr><tr>
-    <td>[baseUrl]</td><td><code>http://localhost</code></td>
+    <td>[baseUrl]</td><td><code>http://localhost</code></td><td><p>The base url. Really this param is very important, you must fill it with your real domain in production environment.</p>
+</td>
     </tr>  </tbody>
 </table>
 

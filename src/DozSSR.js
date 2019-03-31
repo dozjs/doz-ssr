@@ -8,11 +8,11 @@ const normalizeUrl = require('normalize-url');
 class DozSSR {
 
     /**
-     * @param entryFile {string} file index
-     * @param [opt] {object} options
-     * @param [opt.bundleId=bundle] {string} bundle id selector
-     * @param [opt.docTypeString=<!DOCTYPE html>] {string} document type
-     * @param [opt.delayRender=0] {int} delay render in ms
+     * @param entryFile {string} File index.
+     * @param [opt] {object} Options.
+     * @param [opt.bundleId=bundle] {string} Bundle id selector.
+     * @param [opt.docTypeString=<!DOCTYPE html>] {string} Document type.
+     * @param [opt.delayRender=0] {int} Delay render in ms.
      */
     constructor(entryFile, opt = {}) {
 
@@ -62,10 +62,10 @@ class DozSSR {
 
     /**
      * Render app
-     * @param routePath
-     * @param [reloadBundle=false]
-     * @param [baseUrl=http://localhost]
-     * @returns {Promise<any>}
+     * @param routePath The route path.
+     * @param [reloadBundle=false] If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.
+     * @param [baseUrl=http://localhost] The base url. Really this param is very important, you must fill it with your real domain in production environment.
+     * @returns {Promise<*>}
      */
     async render(routePath, reloadBundle = false, baseUrl = 'http://localhost') {
 
