@@ -63,15 +63,15 @@ class DozSSR {
     /**
      * Render app
      * @param routePath
-     * @param [wait=false]
+     * @param [reloadBundle=false]
      * @param [baseUrl=http://localhost]
      * @returns {Promise<any>}
      */
-    async render(routePath, wait = false, baseUrl = 'http://localhost') {
+    async render(routePath, reloadBundle = false, baseUrl = 'http://localhost') {
 
         const url = normalizeUrl(`${baseUrl}/${routePath}`);
 
-        if (wait) {
+        if (reloadBundle) {
             await waitOn({
                 resources: [this.bundlePath]
             });

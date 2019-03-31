@@ -2,7 +2,6 @@
 DOZ server-side rendering
 
 <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" title="License: MIT"/></a>
-<img src="https://img.shields.io/badge/Node.js-%3E%3D8.6.0-green.svg" title="Node.js version"/>
 
 ## Installation
 
@@ -26,7 +25,7 @@ new Koa()
     .use(serve('./public', {index: false}))
     .use(body())
     .use(async ctx => {
-        ctx.body = await dozSSR.render(ctx.path);
+        ctx.body = await dozSSR.render(ctx.url, false, ctx.protocol + '://' + ctx.host);
     })
     .listen(3000);
 ```
@@ -55,11 +54,8 @@ new Koa()
 
 * [DozSSR](#DozSSR)
     * [new DozSSR(entryFile, [opt])](#new_DozSSR_new)
-    * [.setContent(entryContent)](#DozSSR+setContent)
-    * [.getContent()](#DozSSR+getContent) ⇒ <code>string</code>
-    * [.getBundleEl()](#DozSSR+getBundleEl) ⇒ <code>HTMLElement</code> \| <code>null</code>
     * [.getBundlePath()](#DozSSR+getBundlePath) ⇒ <code>string</code>
-    * [.render(routePath, [wait])](#DozSSR+render) ⇒ <code>Promise.&lt;any&gt;</code>
+    * [.render(routePath, [wait], [baseUrl])](#DozSSR+render) ⇒ <code>Promise.&lt;any&gt;</code>
 
 <a name="new_DozSSR_new"></a>
 
@@ -89,36 +85,6 @@ new Koa()
     </tr>  </tbody>
 </table>
 
-<a name="DozSSR+setContent"></a>
-
-### dozSSR.setContent(entryContent)
-Set document content
-
-**Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
-<table>
-  <thead>
-    <tr>
-      <th>Param</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>entryContent</td>
-    </tr>  </tbody>
-</table>
-
-<a name="DozSSR+getContent"></a>
-
-### dozSSR.getContent() ⇒ <code>string</code>
-Get document content
-
-**Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
-<a name="DozSSR+getBundleEl"></a>
-
-### dozSSR.getBundleEl() ⇒ <code>HTMLElement</code> \| <code>null</code>
-Get bundle HTMLElement
-
-**Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <a name="DozSSR+getBundlePath"></a>
 
 ### dozSSR.getBundlePath() ⇒ <code>string</code>
@@ -127,7 +93,7 @@ Get bundle path from src attribute
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <a name="DozSSR+render"></a>
 
-### dozSSR.render(routePath, [wait]) ⇒ <code>Promise.&lt;any&gt;</code>
+### dozSSR.render(routePath, [wait], [baseUrl]) ⇒ <code>Promise.&lt;any&gt;</code>
 Render app
 
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
@@ -142,6 +108,8 @@ Render app
     <td>routePath</td><td></td>
     </tr><tr>
     <td>[wait]</td><td><code>false</code></td>
+    </tr><tr>
+    <td>[baseUrl]</td><td><code>http://localhost</code></td>
     </tr>  </tbody>
 </table>
 
