@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [2.0.0] - 2019-04-12
 
-**IMPORTANT**, now is necessary call `window.SSR.ready()` inside your Doz app
+**IMPORTANT**, now it's necessary to call `window.SSR.ready()` inside your Doz app
 
 Breaking changes
 

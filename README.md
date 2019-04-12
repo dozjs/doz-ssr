@@ -35,7 +35,7 @@ new Koa()
 
 #### bundle.js
 
-**IMPORTANT**, since 2.0.0 is necessary call `window.SSR.ready()` inside your Doz app
+**IMPORTANT**, since 2.0.0 it's necessary to call `window.SSR.ready()` inside your Doz app
 
 ```js
 new Doz({
