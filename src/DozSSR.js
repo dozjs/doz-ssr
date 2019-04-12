@@ -91,7 +91,9 @@ class DozSSR {
                     return routePath;
                 },
                 ready: (args) => {
-                    resolve([this.opt.docTypeString + DOM.window.document.documentElement.outerHTML, args]);
+                    setTimeout(()=> {
+                        resolve([this.opt.docTypeString + DOM.window.document.documentElement.outerHTML, args]);
+                    }, 20)
                 }
             };
 
