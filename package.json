@@ -1,6 +1,6 @@
 {
   "name": "doz-ssr",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "DOZ server-side rendering",
   "main": "index.js",
   "scripts": {
