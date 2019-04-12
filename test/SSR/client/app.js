@@ -4,11 +4,14 @@ import 'doz-router'
 Doz.component('home-page', {
     template() {
         return `
-                <div>I'm home page</div>
-            `
+            <div>I'm home page</div>
+        `
     },
-    onCreate() {
-        console.log(this.tag, 'created')
+    onMountAsync() {
+        console.log(this.tag, 'created', window.__DOZ_SSR_PATH__);
+        if (window.SSR) {
+            window.SSR.ready({routePath: window.SSR.routePath});
+        }
     },
     onDestroy() {
         console.log(this.tag, 'destroyed')
@@ -18,8 +21,8 @@ Doz.component('home-page', {
 Doz.component('about-page', {
     template() {
         return `
-                <div>I'm about page</div>
-            `
+            <div>I'm about page</div>
+        `
     },
     onCreate() {
         console.log(this.tag, 'created')
@@ -32,8 +35,8 @@ Doz.component('about-page', {
 Doz.component('extension-page', {
     template() {
         return `
-                <div>I'm .html page</div>
-            `
+            <div>I'm .html page</div>
+        `
     },
     onCreate() {
         console.log(this.tag, 'created')
@@ -46,8 +49,8 @@ Doz.component('extension-page', {
 Doz.component('contact-page', {
     template() {
         return `
-                <div>I'm contact page</div>
-            `
+            <div>I'm contact page</div>
+        `
     },
     onCreate() {
         console.log(this.tag, 'created')
@@ -64,8 +67,8 @@ Doz.component('contact-page', {
 Doz.component('profile-page', {
     template() {
         return `
-                <div>I'm profile me page</div>
-            `
+            <div>I'm profile me page</div>
+        `
     },
     onCreate() {
         console.log(this.tag, 'created')
@@ -78,8 +81,8 @@ Doz.component('profile-page', {
 Doz.component('user-details-page', {
     template() {
         return `
-                <div>I'm user page with id "${this.props.id}", <a href="javascript:history.back()">back</a></div>
-            `
+            <div>I'm user page with id "${this.props.id}", <a href="javascript:history.back()">back</a></div>
+        `
     },
     onCreate() {
         this.props.id = this.router.param('id');
@@ -93,8 +96,8 @@ Doz.component('user-details-page', {
 Doz.component('search-page', {
     template() {
         return `
-                <div>I'm search page with query "${this.props.query}"</div>
-            `
+            <div>I'm search page with query "${this.props.query}"</div>
+        `
     },
     onCreate() {
         this.props.query = this.router.query('t');
@@ -108,8 +111,8 @@ Doz.component('search-page', {
 Doz.component('user-page', {
     template() {
         return `
-                <div>I'm user page index, <a href="/user/10">show id 10</a></div>
-            `
+            <div>I'm user page index, <a href="/user/10">show id 10</a></div>
+        `
     },
     onCreate() {
         console.log(this.tag, 'created')
@@ -123,8 +126,8 @@ Doz.component('section-page', {
     template() {
         let id = this.router.param('id');
         return `
-                <div>I'm section page index ${id}</div>
-            `
+            <div>I'm section page index ${id}</div>
+        `
     },
     onCreate() {
         console.log(this.tag, 'created')
@@ -137,8 +140,8 @@ Doz.component('section-page', {
 Doz.component('not-found-page', {
     template() {
         return `
-                <div>404 page not found</div>
-            `
+            <div>404 page not found</div>
+        `
     },
     onCreate() {
         console.log(this.tag, 'created')
@@ -151,12 +154,12 @@ Doz.component('not-found-page', {
 Doz.component('navigate-buttons', {
     template() {
         return `
-                <div>
-                    <button onclick="this.router('/about')">About</button>
-                    <button onclick="this.router('/profile/me')">Profile</button>
-                    <button onclick="this.router('/search/?t=hello')">Search hello</button>
-                </div>
-            `
+            <div>
+                <button onclick="this.router('/about')">About</button>
+                <button onclick="this.router('/profile/me')">Profile</button>
+                <button onclick="this.router('/search/?t=hello')">Search hello</button>
+            </div>
+        `
     }
 });
 

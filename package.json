@@ -33,8 +33,9 @@
   },
   "homepage": "https://github.com/dozjs/doz-ssr#readme",
   "devDependencies": {
-    "doz": "^1.14.0",
-    "doz-router": "git+https://github.com/dozjs-cmp/doz-router.git#root",
+    "bejs": "^2.0.1",
+    "doz": "^1.16.9",
+    "doz-router": "^1.6.1",
     "install": "^0.12.2",
     "jsdoc-to-markdown": "^4.0.1",
     "koa": "^2.5.1",

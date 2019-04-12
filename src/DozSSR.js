@@ -12,7 +12,6 @@ class DozSSR {
      * @param [opt] {object} Options.
      * @param [opt.bundleId=bundle] {string} Bundle id selector.
      * @param [opt.docTypeString=<!DOCTYPE html>] {string} Document type.
-     * @param [opt.delayRender=0] {int} Delay render in ms.
      */
     constructor(entryFile, opt = {}) {
 
@@ -21,8 +20,7 @@ class DozSSR {
 
         this.opt = Object.assign({
             bundleId: 'bundle',
-            docTypeString: '<!DOCTYPE html>',
-            delayRender: 0
+            docTypeString: '<!DOCTYPE html>'
         }, opt);
 
         this.entryFile = entryFile;
@@ -62,35 +60,55 @@ class DozSSR {
 
     /**
      * Render app
-     * @param routePath The route path.
-     * @param [reloadBundle=false] If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.
-     * @param [baseUrl=http://localhost] The base url. Really this param is very important, you must fill it with your real domain in production environment.
+     * @param routePath {string} The route path.
+     * @param [opts] {object} Rendering options
+     * @param [opts.reloadBundle=false] {boolean} If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.
+     * @param [opts.baseUrl=http://localhost] {string} The base url. Really this param is very important, you must fill it with your real domain in production environment.
      * @returns {Promise<*>}
      */
-    async render(routePath, reloadBundle = false, baseUrl = 'http://localhost') {
+    render(routePath, opts = {}) {
+        return new Promise(async resolve => {
 
-        const url = normalizeUrl(`${baseUrl}/${routePath}`);
+            opts = Object.assign({
+                reloadBundle: false,
+                baseUrl: 'http://localhost'
+            }, opts);
 
-        if (reloadBundle) {
-            await waitOn({
-                resources: [this.bundlePath]
-            });
-            this.bundleJS = this.constructor.read(this.bundlePath);
-        }
+            const url = normalizeUrl(`${opts.baseUrl}/${routePath}`);
 
-        const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only', url});
+            if (opts.reloadBundle) {
+                await waitOn({
+                    resources: [this.bundlePath]
+                });
+                this.bundleJS = this.constructor.read(this.bundlePath);
+            }
 
-        DOM.window.eval(`
-            window['${DOZ_SSR_PATH}'] = '${routePath}';
-            let parcelRequire = {};
-            window.WebSocket = undefined;
-            ${this.bundleJS};
-        `);
+            const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only', url});
 
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(this.opt.docTypeString + DOM.window.document.documentElement.outerHTML);
-            }, this.opt.delayRender);
+            // Add SSR object that contains `ready` callback
+            DOM.window.SSR = {
+                get routePath() {
+                    return routePath;
+                },
+                ready: (args) => {
+                    resolve([this.opt.docTypeString + DOM.window.document.documentElement.outerHTML, args]);
+                }
+            };
+
+            // Add SSR path
+            DOM.window[DOZ_SSR_PATH] = routePath;
+
+            // Disable WebSocket
+            DOM.window.WebSocket = undefined;
+            // Transform interval to timeout
+            DOM.window.setInterval = DOM.window.setTimeout;
+            DOM.window.clearInterval = DOM.window.clearTimeout;
+
+            DOM.window.eval(`
+                let parcelRequire = {};
+                ${this.bundleJS};
+            `);
+
         });
     }
 
