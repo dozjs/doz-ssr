@@ -6,14 +6,14 @@ DOZ server-side rendering
 ## Installation
 
 ```
-npm install doz-ssr --save
+npm install doz-ssr
 ```
 
 ## Example with Koa
 
 #### server.js
 
-```javascript
+```js
 const Koa = require('koa');
 const serve = require('koa-static');
 const body = require('koa-body');
@@ -25,9 +25,31 @@ new Koa()
     .use(serve('./public', {index: false}))
     .use(body())
     .use(async ctx => {
-        ctx.body = await dozSSR.render(ctx.url, false, ctx.protocol + '://' + ctx.host);
+        const [content] = await dozSSR.render(ctx.url, {
+            baseUrl: ctx.protocol + '://' + ctx.host
+        });
+        ctx.body = content;
     })
     .listen(3000);
+```
+
+#### bundle.js
+
+**IMPORTANT**, since 2.0.0 is necessary call `window.SSR.ready()` inside your Doz app
+
+```js
+new Doz({
+    root: '#app',
+    template(h) {
+        return h`
+            <div class="container"></div>
+        `
+    },
+    onMount() {
+        if (window.SSR)
+            window.SSR.ready();
+    }
+});
 ```
 
 #### index.html
@@ -55,7 +77,7 @@ new Koa()
 * [DozSSR](#DozSSR)
     * [new DozSSR(entryFile, [opt])](#new_DozSSR_new)
     * [.getBundlePath()](#DozSSR+getBundlePath) ⇒ <code>string</code>
-    * [.render(routePath, [reloadBundle], [baseUrl])](#DozSSR+render) ⇒ <code>Promise.&lt;\*&gt;</code>
+    * [.render(routePath, [opts])](#DozSSR+render) ⇒ <code>Promise.&lt;\*&gt;</code>
 
 <a name="new_DozSSR_new"></a>
 
@@ -79,9 +101,6 @@ new Koa()
     </tr><tr>
     <td>[opt.docTypeString]</td><td><code>string</code></td><td><code>&quot;&lt;!DOCTYPE html&gt;&quot;</code></td><td><p>Document type.</p>
 </td>
-    </tr><tr>
-    <td>[opt.delayRender]</td><td><code>int</code></td><td><code>0</code></td><td><p>Delay render in ms.</p>
-</td>
     </tr>  </tbody>
 </table>
 
@@ -93,25 +112,28 @@ Get bundle path from src attribute
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <a name="DozSSR+render"></a>
 
-### dozSSR.render(routePath, [reloadBundle], [baseUrl]) ⇒ <code>Promise.&lt;\*&gt;</code>
+### dozSSR.render(routePath, [opts]) ⇒ <code>Promise.&lt;\*&gt;</code>
 Render app
 
 **Kind**: instance method of [<code>DozSSR</code>](#DozSSR)  
 <table>
   <thead>
     <tr>
-      <th>Param</th><th>Default</th><th>Description</th>
+      <th>Param</th><th>Type</th><th>Default</th><th>Description</th>
     </tr>
   </thead>
   <tbody>
 <tr>
-    <td>routePath</td><td></td><td><p>The route path.</p>
+    <td>routePath</td><td><code>string</code></td><td></td><td><p>The route path.</p>
 </td>
     </tr><tr>
-    <td>[reloadBundle]</td><td><code>false</code></td><td><p>If true, the bundle will be reload every render call. This operation is slow.</p>
+    <td>[opts]</td><td><code>object</code></td><td></td><td><p>Rendering options</p>
 </td>
     </tr><tr>
-    <td>[baseUrl]</td><td><code>http://localhost</code></td><td><p>The base url. Really this param is very important, you must fill it with your real domain in production environment.</p>
+    <td>[opts.reloadBundle]</td><td><code>boolean</code></td><td><code>false</code></td><td><p>If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.</p>
+</td>
+    </tr><tr>
+    <td>[opts.baseUrl]</td><td><code>string</code></td><td><code>&quot;http://localhost&quot;</code></td><td><p>The base url. Really this param is very important, you must fill it with your real domain in production environment.</p>
 </td>
     </tr>  </tbody>
 </table>
