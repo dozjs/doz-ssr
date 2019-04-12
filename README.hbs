@@ -6,14 +6,14 @@ DOZ server-side rendering
 ## Installation
 
 ```
-npm install doz-ssr --save
+npm install doz-ssr
 ```
 
 ## Example with Koa
 
 #### server.js
 
-```javascript
+```js
 const Koa = require('koa');
 const serve = require('koa-static');
 const body = require('koa-body');
@@ -25,9 +25,31 @@ new Koa()
     .use(serve('./public', {index: false}))
     .use(body())
     .use(async ctx => {
-        ctx.body = await dozSSR.render(ctx.url, false, ctx.protocol + '://' + ctx.host);
+        const [content] = await dozSSR.render(ctx.url, {
+            baseUrl: ctx.protocol + '://' + ctx.host
+        });
+        ctx.body = content;
     })
     .listen(3000);
+```
+
+#### bundle.js
+
+**IMPORTANT**, since 2.0.0 is necessary call `window.SSR.ready()` inside your Doz app
+
+```js
+new Doz({
+    root: '#app',
+    template(h) {
+        return h`
+            <div class="container"></div>
+        `
+    },
+    onMount() {
+        if (window.SSR)
+            window.SSR.ready();
+    }
+});
 ```
 
 #### index.html
