@@ -139,8 +139,8 @@ Render app
     <td>[opts.inject]</td><td><code>string</code></td><td></td><td><p>This options is useful to inject code before app bundle execution.</p>
 </td>
     </tr><tr>
-    <td>[opts.replacements]</td><td><code>object</code></td><td></td><td><p>This options is useful to replace any placeholder like this <code>%MY_PLACEHOLDER%,
-in this case, the key will be</code>MY_PLACEHOLDER` and the value &quot;YOUR STRING&quot;. The perfect scenario are for example the meta tags values.</p>
+    <td>[opts.replacements]</td><td><code>object</code></td><td></td><td><p>This options is useful to replace any placeholder like this <code>%MY_PLACEHOLDER%</code>,
+in this case, the key will be <code>MY_PLACEHOLDER</code> and the value &quot;YOUR STRING&quot;. The perfect scenario are for example the meta tags values.</p>
 </td>
     </tr>  </tbody>
 </table>
