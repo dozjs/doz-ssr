@@ -65,7 +65,7 @@ class DozSSR {
      * @param [opts.reloadBundle=false] {boolean} If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.
      * @param [opts.baseUrl=http://localhost] {string} The base url. Really this param is very important, you must fill it with your real domain in production environment.
      * @param [opts.inject] {string} This options is useful to inject code before app bundle execution.
-     * @param [opts.replacements] {object} This options is useful to replace any placeholder like this `%MY_PLACEHOLDER%,
+     * @param [opts.replacements] {object} This options is useful to replace any placeholder like this `%MY_PLACEHOLDER%`,
      * in this case, the key will be `MY_PLACEHOLDER` and the value "YOUR STRING". The perfect scenario are for example the meta tags values.
      * @returns {Promise<*>}
      */
