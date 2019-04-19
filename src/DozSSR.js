@@ -99,6 +99,17 @@ class DozSSR {
                 }
             };
 
+            // Inject script to the DOM
+            if (opts.inject) {
+                const bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
+                const injectScript = DOM.window.document.createElement('script');
+                injectScript.innerHTML = opts.inject;
+                bundleEl.parentNode.insertBefore(
+                    injectScript,
+                    bundleEl
+                );
+            }
+
             // Add SSR path
             DOM.window[DOZ_SSR_PATH] = routePath;
 
@@ -113,7 +124,6 @@ class DozSSR {
                 let parcelRequire = {};
                 ${this.bundleJS};
             `);
-
         });
     }
 
