@@ -135,6 +135,9 @@ Render app
     </tr><tr>
     <td>[opts.baseUrl]</td><td><code>string</code></td><td><code>&quot;http://localhost&quot;</code></td><td><p>The base url. Really this param is very important, you must fill it with your real domain in production environment.</p>
 </td>
+    </tr><tr>
+    <td>[opts.inject]</td><td><code>string</code></td><td><code>&quot;&#x27;&#x27;&quot;</code></td><td><p>This options is useful to inject code before app bundle execution.</p>
+</td>
     </tr>  </tbody>
 </table>
 

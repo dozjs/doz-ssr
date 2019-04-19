@@ -64,7 +64,7 @@ class DozSSR {
      * @param [opts] {object} Rendering options
      * @param [opts.reloadBundle=false] {boolean} If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.
      * @param [opts.baseUrl=http://localhost] {string} The base url. Really this param is very important, you must fill it with your real domain in production environment.
-     * @param [opts.globalProperties] {object} Attach properties to global object for this render.
+     * @param [opts.inject=''] {string} This options is useful to inject code before app bundle execution.
      * @returns {Promise<*>}
      */
     render(routePath, opts = {}) {
@@ -73,7 +73,7 @@ class DozSSR {
             opts = Object.assign({
                 reloadBundle: false,
                 baseUrl: 'http://localhost',
-                globalProperties: null
+                inject: ''
             }, opts);
 
             const url = normalizeUrl(`${opts.baseUrl}/${routePath}`);
@@ -108,11 +108,8 @@ class DozSSR {
             DOM.window.setInterval = DOM.window.setTimeout;
             DOM.window.clearInterval = DOM.window.clearTimeout;
 
-            if (opts.globalProperties) {
-                Object.assign(DOM.window, opts.globalProperties);
-            }
-
             DOM.window.eval(`
+                ${opts.inject}
                 let parcelRequire = {};
                 ${this.bundleJS};
             `);
