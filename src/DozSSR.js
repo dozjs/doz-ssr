@@ -64,7 +64,9 @@ class DozSSR {
      * @param [opts] {object} Rendering options
      * @param [opts.reloadBundle=false] {boolean} If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.
      * @param [opts.baseUrl=http://localhost] {string} The base url. Really this param is very important, you must fill it with your real domain in production environment.
-     * @param [opts.inject=''] {string} This options is useful to inject code before app bundle execution.
+     * @param [opts.inject] {string} This options is useful to inject code before app bundle execution.
+     * @param [opts.replacements] {object} This options is useful to replace any placeholder like this `%MY_PLACEHOLDER%,
+     * in this case, the key will be `MY_PLACEHOLDER` and the value "YOUR STRING". The perfect scenario are for example the meta tags values.
      * @returns {Promise<*>}
      */
     render(routePath, opts = {}) {
@@ -73,7 +75,8 @@ class DozSSR {
             opts = Object.assign({
                 reloadBundle: false,
                 baseUrl: 'http://localhost',
-                inject: ''
+                inject: '',
+                replacements: {}
             }, opts);
 
             const url = normalizeUrl(`${opts.baseUrl}/${routePath}`);
@@ -94,21 +97,29 @@ class DozSSR {
                 },
                 ready: (args) => {
                     setTimeout(()=> {
-                        resolve([this.opt.docTypeString + DOM.window.document.documentElement.outerHTML, args]);
+                        // Rendering logic
+                        // Inject script to the DOM
+                        if (opts.inject) {
+                            const bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
+                            const injectScript = DOM.window.document.createElement('script');
+                            injectScript.innerHTML = opts.inject;
+                            bundleEl.parentNode.insertBefore(
+                                injectScript,
+                                bundleEl
+                            );
+                        }
+
+                        let content = this.opt.docTypeString + DOM.window.document.documentElement.outerHTML;
+
+                        const replacementsKeys = Object.keys(opts.replacements);
+                        replacementsKeys.forEach(key => {
+                            content = content.replace(new RegExp('%' + key + '%', 'g'), opts.replacements[key])
+                        });
+
+                        resolve([content, args]);
                     }, 20)
                 }
             };
-
-            // Inject script to the DOM
-            if (opts.inject) {
-                const bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
-                const injectScript = DOM.window.document.createElement('script');
-                injectScript.innerHTML = opts.inject;
-                bundleEl.parentNode.insertBefore(
-                    injectScript,
-                    bundleEl
-                );
-            }
 
             // Add SSR path
             DOM.window[DOZ_SSR_PATH] = routePath;
