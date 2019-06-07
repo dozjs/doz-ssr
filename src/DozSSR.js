@@ -129,6 +129,9 @@ class DozSSR {
             // Transform interval to timeout
             DOM.window.setInterval = DOM.window.setTimeout;
             DOM.window.clearInterval = DOM.window.clearTimeout;
+            // Transform requestAnimationFrame to timeout
+            DOM.window.requestAnimationFrame = DOM.window.setTimeout;
+            DOM.window.cancelAnimationFrame = DOM.window.clearTimeout;
 
             DOM.window.eval(`
                 ${opts.inject}

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+[2.1.1] - 2019-06-07
+- **Fixed** `requestAnimationFrame` not a function
+- **Fixed** `cancelAnimationFrame` not a function
+
 [2.1.0] - 2019-04-19
 - **Added** `inject` option to options of `render` method
 - **Added** `replacements` option to options of `render` method
