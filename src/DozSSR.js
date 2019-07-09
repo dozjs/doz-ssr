@@ -65,6 +65,7 @@ class DozSSR {
      * @param [opts.reloadBundle=false] {boolean} If true, the bundle will be reload every render call. This operation is slow so useful only in develop mode.
      * @param [opts.baseUrl=http://localhost] {string} The base url. Really this param is very important, you must fill it with your real domain in production environment.
      * @param [opts.inject] {string} This options is useful to inject code before app bundle execution.
+     * @param [opts.headers] {object} Accepts the headers of the request`,
      * @param [opts.replacements] {object} This options is useful to replace any placeholder like this `%MY_PLACEHOLDER%`,
      * in this case, the key will be `MY_PLACEHOLDER` and the value "YOUR STRING". The perfect scenario are for example the meta tags values.
      * @returns {Promise<*>}
@@ -76,6 +77,7 @@ class DozSSR {
                 reloadBundle: false,
                 baseUrl: 'http://localhost',
                 inject: '',
+                headers: null,
                 replacements: {}
             }, opts);
 
@@ -89,6 +91,13 @@ class DozSSR {
             }
 
             const DOM = new jsdom.JSDOM(this.entryContent, {runScripts: 'outside-only', url});
+
+            if (opts.headers) {
+                if (opts.headers['user-agent'])
+                    Object.defineProperty(DOM.window.navigator, 'userAgent', {value: opts.headers['user-agent']});
+                if (opts.headers['accept-language'])
+                    Object.defineProperty(DOM.window.navigator, 'language', {value: opts.headers['accept-language']});
+            }
 
             // Add SSR object that contains `ready` callback
             DOM.window.SSR = {

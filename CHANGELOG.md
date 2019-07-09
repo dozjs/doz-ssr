@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+[2.2.0] - 2019-07-09
+- **Added** `opts.headers`
+
 [2.1.1] - 2019-06-07
 - **Fixed** `requestAnimationFrame` not a function
 - **Fixed** `cancelAnimationFrame` not a function
