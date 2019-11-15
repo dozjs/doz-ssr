@@ -1,9 +1,9 @@
-const {DOZ_SSR_PATH} = require('./src/constants');
+const CONSTANTS = require('./src/constants');
 
 module.exports = function (Doz) {
     Doz.mixin({
         isSSR: function() {
-            return Boolean(window[DOZ_SSR_PATH]);
+            return Boolean(window[CONSTANTS.DOZ_SSR_PATH]);
         }
     })
 };
