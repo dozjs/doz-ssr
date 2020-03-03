@@ -99,8 +99,6 @@ class DozSSR {
                     Object.defineProperty(DOM.window.navigator, 'language', {value: opts.headers['accept-language']});
             }
 
-            let contentEval = opts.inject + ' let parcelRequire = {}; ' + this.bundleJS;
-
             // Add SSR object that contains `ready` callback
             DOM.window.SSR = {
                 get routePath() {
@@ -108,12 +106,11 @@ class DozSSR {
                 },
                 ready: (args) => {
                     setTimeout(()=> {
-                        //return resolve(['']);
                         // Rendering logic
                         // Inject script to the DOM
                         if (opts.inject) {
-                            let bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
-                            let injectScript = DOM.window.document.createElement('script');
+                            const bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
+                            const injectScript = DOM.window.document.createElement('script');
                             injectScript.innerHTML = opts.inject;
                             bundleEl.parentNode.insertBefore(
                                 injectScript,
@@ -123,19 +120,15 @@ class DozSSR {
 
                         let content = this.opt.docTypeString + DOM.window.document.documentElement.outerHTML;
 
-                        let replacementsKeys = Object.keys(opts.replacements);
+                        const replacementsKeys = Object.keys(opts.replacements);
                         replacementsKeys.forEach(key => {
                             content = content.replace(new RegExp('%' + key + '%', 'g'), opts.replacements[key])
                         });
 
                         resolve([content, args]);
 
-                        // Destroy JSDOM window
                         DOM.window.close();
                         DOM = null;
-                        content = null;
-                        contentEval = null;
-
                     }, 20)
                 }
             };
@@ -152,7 +145,11 @@ class DozSSR {
             DOM.window.requestAnimationFrame = DOM.window.setTimeout;
             DOM.window.cancelAnimationFrame = DOM.window.clearTimeout;
 
-            DOM.window.eval(contentEval);
+            DOM.window.eval(`
+                ${opts.inject}
+                let parcelRequire = {};
+                ${this.bundleJS};
+            `);
         });
     }
 
