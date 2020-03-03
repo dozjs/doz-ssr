@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+[2.2.4] - 2020-03-03
+- **Fixed** destroy JSDOM window after rendering
+
 [2.2.3] - 2020-03-02
 - **Updated** JSDOM
 
