@@ -11,6 +11,7 @@ class DozSSR {
      * @param entryFile {string} File index.
      * @param [opt] {object} Options.
      * @param [opt.bundleId=bundle] {string} Bundle id selector.
+     * @param [opt.appRootId=app] {string} App id selector.
      * @param [opt.docTypeString=<!DOCTYPE html>] {string} Document type.
      */
     constructor(entryFile, opt = {}) {
@@ -20,6 +21,7 @@ class DozSSR {
 
         this.opt = Object.assign({
             bundleId: 'bundle',
+            appRootId: 'app',
             docTypeString: '<!DOCTYPE html>'
         }, opt);
 
@@ -107,9 +109,19 @@ class DozSSR {
                 ready: (args) => {
                     setTimeout(()=> {
                         // Rendering logic
+                        const bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
+
+                        //Add script that destroy app root content
+                        const cleanerScript = DOM.window.document.createElement('script');
+                        cleanerScript.innerHTML = 'var appRootEl = document.getElementById("' + this.opt.appRootId + '"); if (appRootEl) appRootEl.innerHTML = "";';
+
+                        bundleEl.parentNode.insertBefore(
+                            cleanerScript,
+                            bundleEl
+                        );
+
                         // Inject script to the DOM
                         if (opts.inject) {
-                            const bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
                             const injectScript = DOM.window.document.createElement('script');
                             injectScript.innerHTML = opts.inject;
                             bundleEl.parentNode.insertBefore(

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+[2.3.0] - 2020-04-25
+- **Added** root cleaner that prevent strange behaviour when use animation
+- **Added** `opt.appRootId`
+
 [2.2.6] - 2020-03-04
 - Rollback to JSDOM 16.2.0
 

@@ -2,6 +2,7 @@
 DOZ server-side rendering
 
 <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" title="License: MIT"/></a>
+<img src="https://img.shields.io/badge/Node.js-%3E%3D10.x.x-green.svg" title="Node.js version"/>
 
 ## Installation
 
@@ -97,6 +98,9 @@ new Doz({
 </td>
     </tr><tr>
     <td>[opt.bundleId]</td><td><code>string</code></td><td><code>&quot;bundle&quot;</code></td><td><p>Bundle id selector.</p>
+</td>
+    </tr><tr>
+    <td>[opt.appRootId]</td><td><code>string</code></td><td><code>&quot;app&quot;</code></td><td><p>App id selector.</p>
 </td>
     </tr><tr>
     <td>[opt.docTypeString]</td><td><code>string</code></td><td><code>&quot;&lt;!DOCTYPE html&gt;&quot;</code></td><td><p>Document type.</p>
