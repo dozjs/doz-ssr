@@ -68,6 +68,7 @@ class DozSSR {
      * @param [opts.baseUrl=http://localhost] {string} The base url. Really this param is very important, you must fill it with your real domain in production environment.
      * @param [opts.inject] {string} This options is useful to inject code before app bundle execution.
      * @param [opts.headers] {object} Accepts the headers of the request`,
+     * @param [opts.disableCleanerScript=false] {boolean} Disable cleaner script before to the client rendering`,
      * @param [opts.replacements] {object} This options is useful to replace any placeholder like this `%MY_PLACEHOLDER%`,
      * in this case, the key will be `MY_PLACEHOLDER` and the value "YOUR STRING". The perfect scenario are for example the meta tags values.
      * @returns {Promise<*>}
@@ -80,7 +81,8 @@ class DozSSR {
                 baseUrl: 'http://localhost',
                 inject: '',
                 headers: null,
-                replacements: {}
+                replacements: {},
+                disableCleanerScript: false
             }, opts);
 
             const url = normalizeUrl(`${opts.baseUrl}/${routePath}`);
@@ -111,14 +113,16 @@ class DozSSR {
                         // Rendering logic
                         const bundleEl = DOM.window.document.getElementById(this.opt.bundleId);
 
-                        //Add script that destroy app root content
-                        const cleanerScript = DOM.window.document.createElement('script');
-                        cleanerScript.innerHTML = 'var appRootEl = document.getElementById("' + this.opt.appRootId + '"); if (appRootEl) appRootEl.innerHTML = "";';
+                        if (!opts.disableCleanerScript) {
+                            //Add script that destroy app root content
+                            const cleanerScript = DOM.window.document.createElement('script');
+                            cleanerScript.innerHTML = 'var appRootEl = document.getElementById("' + this.opt.appRootId + '"); if (appRootEl) appRootEl.innerHTML = "";';
 
-                        bundleEl.parentNode.insertBefore(
-                            cleanerScript,
-                            bundleEl
-                        );
+                            bundleEl.parentNode.insertBefore(
+                                cleanerScript,
+                                bundleEl
+                            );
+                        }
 
                         // Inject script to the DOM
                         if (opts.inject) {
