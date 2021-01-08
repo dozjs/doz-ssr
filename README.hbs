@@ -74,16 +74,29 @@ new Doz({
 
 ## PLUGIN
 
-Check if environment is server side from your app
+There is a plugin that adds a method and a directive:
 
 ```js
-import isSSR from 'doz-ssr/plugin'
+import ssrPlugin from 'doz-ssr/plugin'
 
-Doz.use(isSSR);
+Doz.use(ssrPlugin);
 
-// You now can call isSSR() method inside your app
+// If you call isSSR() method inside your app you can check if it is in server environment
 Doz.component('my-component', function(h){
-    return h`<div>is server? ${this.isSSR()}</div>`
+    return h`
+        <div>is server? ${this.isSSR()}</div>
+    `
+})
+
+// If you want exclude (not visible) a component or part of html you can use the directive `d-ssr-invisible`
+Doz.component('my-component', function(h){
+    return h`
+        <div>
+            hello my friend
+            <!-- on server side this will be not shown -->
+            <div d-ssr-invisible>wow!</div>
+        </div>
+    `
 })
 ```
 

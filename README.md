@@ -146,6 +146,9 @@ Render app
     <td>[opts.headers]</td><td><code>object</code></td><td></td><td><p>Accepts the headers of the request`,</p>
 </td>
     </tr><tr>
+    <td>[opts.disableCleanerScript]</td><td><code>boolean</code></td><td><code>false</code></td><td><p>Disable cleaner script before to the client rendering`,</p>
+</td>
+    </tr><tr>
     <td>[opts.replacements]</td><td><code>object</code></td><td></td><td><p>This options is useful to replace any placeholder like this <code>%MY_PLACEHOLDER%</code>,
 in this case, the key will be <code>MY_PLACEHOLDER</code> and the value &quot;YOUR STRING&quot;. The perfect scenario are for example the meta tags values.</p>
 </td>
