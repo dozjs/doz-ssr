@@ -9,10 +9,13 @@ module.exports = function (Doz) {
         isSSR
     });
 
-    Doz.directive('ssr-invisible', {
-        onComponentDOMElementCreate(instance, $target) {
-            if (isSSR())
-                $target.style.visibility = 'hidden';
+    Doz.directive('ssr-$method', {
+        onComponentDOMElementCreate(instance, $target, directiveValue, initial, keyArgumentsValues) {
+            if (isSSR()) {
+                if (Array.isArray(keyArgumentsValues) && keyArgumentsValues[0] === 'invisible') {
+                    $target.style.visibility = 'hidden';
+                }
+            }
         }
     })
 };
