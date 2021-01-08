@@ -146,7 +146,7 @@ Render app
     <td>[opts.headers]</td><td><code>object</code></td><td></td><td><p>Accepts the headers of the request`,</p>
 </td>
     </tr><tr>
-    <td>[opts.disableCleanerScript]</td><td><code>boolean</code></td><td><code>false</code></td><td><p>Disable cleaner script before to the client rendering`,</p>
+    <td>[opts.cleanerScript]</td><td><code>boolean</code></td><td><code>false</code></td><td><p>Cleaner script before to the client rendering`,</p>
 </td>
     </tr><tr>
     <td>[opts.replacements]</td><td><code>object</code></td><td></td><td><p>This options is useful to replace any placeholder like this <code>%MY_PLACEHOLDER%</code>,
@@ -158,16 +158,29 @@ in this case, the key will be <code>MY_PLACEHOLDER</code> and the value &quot;YO
 
 ## PLUGIN
 
-Check if environment is server side from your app
+There is a plugin that adds a method and a directive:
 
 ```js
-import isSSR from 'doz-ssr/plugin'
+import ssrPlugin from 'doz-ssr/plugin'
 
-Doz.use(isSSR);
+Doz.use(ssrPlugin);
 
-// You now can call isSSR() method inside your app
+// If you call isSSR() method inside your app you can check if it is in server environment
 Doz.component('my-component', function(h){
-    return h`<div>is server? ${this.isSSR()}</div>`
+    return h`
+        <div>is server? ${this.isSSR()}</div>
+    `
+})
+
+// If you want exclude (not visible) a component or part of html you can use the directive `d-ssr-invisible`
+Doz.component('my-component', function(h){
+    return h`
+        <div>
+            hello my friend
+            <!-- on server side this will be not shown -->
+            <div d-ssr-invisible>wow!</div>
+        </div>
+    `
 })
 ```
 
